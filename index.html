@@ -10,248 +10,131 @@
     <link rel="stylesheet" href="css/cayman.css">
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Cayman</h1>
-      <h2 class="project-tagline">A responsive theme for your project on GitHub Pages</h2>
-      <a href="#" class="btn">View on GitHub</a>
-      <a href="#" class="btn">Download .zip</a>
-      <a href="#" class="btn">Download .tar.gz</a>
-    </section>
+      <section class="page-header">
+        <h1>Recasting for Table-NLI</h1>
+        <a href="https://arxiv.org/abs/2211.12641" class="btn">Paper</a>
+        <a href="https://github.com/recasting-to-nli/Recasting-to-TNLI-Source" class="btn">Dataset and Code</a>
+        <a href="explore.html" class="btn">Explore</a>
+        <a href="https://docs.google.com/presentation/d/1kf_ykqQ7iyESZLow0FOruvZ4TkNSc85eeg7h8-noT9A/edit?usp=sharing" class="btn">Slides</a><br>
+      </section>
 
     <section class="main-content">
-      <p>Text can be <strong>bold</strong>, <em>italic</em>, or <del>strikethrough</del>. <a href="https://github.com">Links</a> should be blue with no underlines (unless hovered over).</p>
+      <h1>Leveraging Data Recasting to Enhance Tabular Reasoning</h1>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>About</h2><p style="text-align: justify;">Creating challenging tabular inference data is essential for learning complex reasoning. Prior work has mostly relied on two data generation strategies. The first is human annotation, which yields linguistically diverse data but is difficult to scale. The second category for creation is synthetic generation, which is scalable and cost effective but lacks inventiveness. In this research, we present a framework for semi-automatically recasting existing tabular data to make use of the benefits of both approaches. We utilize our framework to build tabular NLI instances from five datasets that were initially intended for tasks like table2text creation, tabular Q/A, and semantic parsing. We demonstrate that recasted data could be used as evaluation benchmarks as well as augmentation data to enhance performance on tabular NLI tasks. Furthermore, we investigate the effectiveness of models trained on recasted data in the zero-shot scenario, and analyse trends in performance across different recasted datasets types. <p>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Framework</h2>
+      <h3>Pre-requisites</h3>
+      <ul>a table i.e. the Premise </ul> 
+      <ul> a reference statement i.e. the Base Entailment</ul> 
+      <ul> relevant entities and (d) their alignments with the reference statement.</ul> 
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+			<p style="text-align: justify; display:inline;">Below is an inference example from the INFOTABS dataset. On the right is a premise which is a table extracted from wikipedia infobox. On the left are hypotheses written by human annotators. Here, colors <p style='color:green;display:inline;'>'green'</p>, <p style='color:darkgray;display:inline;'>'gray'</p>, and <p style='color:red;display:inline;'>'red'</p> represent true (i.e., entailment), maybe true (i.e., neutral) and false (i.e., contradiction) statements, respectively.</p>
+			<p style="margin-left:10%; margin-right:10%;"><img src="figures/example.jpeg" style="max-width:95%;"></p>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reasoning</h2>
+			<p style="text-align: justify;">To study the nature of reasoning that is involved in deciding the relationship between a table and a hypothesis, we adapted the set of reasoning categories from <a href="https://gluebenchmark.com">GLUE Benchmark</a> to table premises. All definitions and their boundaries were verified with several rounds of discussions. Following this, three graduate students (authors of the paper) independently annotated 160 pairs from the dev and alpha 3 test sets each, and edge cases were adjudicated to arrive at consensus labels.</p>
+			<figure>
+				<img src="figures/reasoning.png" style="max-width:100%;">
+				<figcaption>Type and counts of reasoning in the Development and test alpha3 data splits. OOT and KCS are short forms of out-of-table and Knowledge & Common Sense, respectively.
+				</figcaption>
+			</figure>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset Statistics</h2>
+			<p style="text-align: justify;">Our dataset consists of five splits (train, dev, alpha one, alpha two and alpha three). Below we provide basic statistics of data, i.e., number of tables and table-sentence pairs in each of the data splits. We also performed a validation step with five annotators for inter annotator agreement for all splits except the training set.</p>
+			<div>
+				<table  style="margin-left:15%;
+					margin-right:15%;">
+					<thead>
+						<tr>
+							<th>Data Split</th>
+							<th>Number of Tables</th>
+							<th>Number of Pairs</th>
+						</tr>
+					</thead>
+					<tbody align="center">
+						<tr>
+							<td>Train</td>
+							<td>1740</td>
+							<td>16538</td>
+						</tr>
+						<tr>
+							<td>Dev</td>
+							<td>200</td>
+							<td>1800</td>
+						</tr>
+						<tr>
+							<td>alpha 1</td>
+							<td>200</td>
+							<td>1800</td>
+						</tr>
+						<tr>
+							<td>alpha 2</td>
+							<td>200</td>
+							<td>1800</td>
+						</tr>
+						<tr>
+							<td>alpha 3</td>
+							<td>200</td>
+							<td>1800</td>
+						</tr>
+					</tbody>
+					<caption>Number of tables and premise-hypothesis
+					pairs for each data split</caption>
+				</table>
+			</div>
+			<br><br>
+			<div style="text-align:center;">
+				<table>
+					<thead>
+						<tr>
+							<th>Data Split</th>
+							<th>Cohen's Kappa</th>
+							<th>Human Performance</th>
+							<th>Majority Agreeement</th>
+						</tr>
+					</thead>
+					<tbody align="center">
+						<tr>
+							<td>Dev</td>
+							<td>0.78</td>
+							<td>79.78</td>
+							<td>93.53</td>
+						</tr>
+						<tr>
+							<td>alpha 1</td>
+							<td>0.80</td>
+							<td>84.04</td>
+							<td>97.48</td>
+						</tr>
+						<tr>
+							<td>alpha 2</td>
+							<td>0.80</td>
+							<td>83.88</td>
+							<td>96.77</td>
+						</tr>
+						<tr>
+							<td>alpha 3</td>
+							<td>0.74</td>
+							<td>79.33</td>
+							<td>95.58</td>
+						</tr>
+					</tbody>
+					<caption>Cohen's Kappa, human baseline and inter-annotator agreement scores</caption>
+				</table>
+			</div>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Knowledge + InfoTabS</h2>
+			<p style="text-align: justify;"> You should check our <a href="https://2021.naacl.org/">NAACL 2021</a> paper which <a href="https://knowledge-infotabs.github.io">enhance InfoTabS</a> with extra Knowledge.</p>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>TabPert</h2>
+			<p style="text-align: justify;"> You should check our <a href="https://2021.emnlp.org">EMNLP 2021</a> paper which is a <a href="https://tabpert.github.io">tabular perturbation platform</a> to generate counterfactual examples.</p>
 
-      <p>There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs.</p>
-
-      <p>There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs.</p>
-
-      <blockquote>
-      <p>There should be no margin above this first sentence.</p>
-
-      <p>Blockquotes should be a lighter gray with a gray border along the left side.</p>
-
-      <p>There should be no margin below this final sentence.</p>
-      </blockquote>
-
-      <h1>
-      <a id="user-content-header-1" class="anchor" href="#header-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 1</h1>
-
-      <p>This is a normal paragraph following a header. Bacon ipsum dolor sit amet t-bone doner shank drumstick, pork belly porchetta chuck sausage brisket ham hock rump pig. Chuck kielbasa leberkas, pork bresaola ham hock filet mignon cow shoulder short ribs biltong.</p>
-
-      <h2>
-      <a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 2</h2>
-
-      <blockquote>
-      <p>This is a blockquote following a header. Bacon ipsum dolor sit amet t-bone doner shank drumstick, pork belly porchetta chuck sausage brisket ham hock rump pig. Chuck kielbasa leberkas, pork bresaola ham hock filet mignon cow shoulder short ribs biltong.</p>
-      </blockquote>
-
-      <h3>
-      <a id="user-content-header-3" class="anchor" href="#header-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 3</h3>
-
-      <pre><code>This is a code block following a header.</code></pre>
-
-      <h4>
-      <a id="user-content-header-4" class="anchor" href="#header-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 4</h4>
-
-      <ul class="task-list">
-      <li>This is an unordered list following a header.</li>
-      <li>This is an unordered list following a header.</li>
-      <li>This is an unordered list following a header.</li>
-      </ul>
-
-      <h5>
-      <a id="user-content-header-5" class="anchor" href="#header-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 5</h5>
-
-      <ol class="task-list">
-      <li>This is an ordered list following a header.</li>
-      <li>This is an ordered list following a header.</li>
-      <li>This is an ordered list following a header.</li>
-      </ol>
-
-      <h6>
-      <a id="user-content-header-6" class="anchor" href="#header-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 6</h6>
-
-      <table>
-      <thead>
-      <tr>
-      <th>What</th>
-      <th>Follows</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>A table</td>
-      <td>A header</td>
-      </tr>
-      <tr>
-      <td>A table</td>
-      <td>A header</td>
-      </tr>
-      <tr>
-      <td>A table</td>
-      <td>A header</td>
-      </tr>
-      </tbody>
-      </table>
-
-      <hr>
-
-      <p>There's a horizontal rule above and below this.</p>
-
-      <hr>
-
-      <p>Here is an unordered list:</p>
-
-      <ul class="task-list">
-      <li>Salt-n-Pepa</li>
-      <li>Bel Biv DeVoe</li>
-      <li>Kid 'N Play</li>
-      </ul>
-
-      <p>And an ordered list:</p>
-
-      <ol class="task-list">
-      <li>Michael Jackson</li>
-      <li>Michael Bolton</li>
-      <li>Michael Bublé</li>
-      </ol>
-
-      <p>And an unordered task list:</p>
-
-      <ul class="task-list">
-      <li class="task-list-item">
-      <input type="checkbox" class="task-list-item-checkbox" checked="" disabled=""> Create a sample markdown document</li>
-      <li class="task-list-item">
-      <input type="checkbox" class="task-list-item-checkbox" checked="" disabled=""> Add task lists to it</li>
-      <li class="task-list-item">
-      <input type="checkbox" class="task-list-item-checkbox" disabled=""> Take a vacation</li>
-      </ul>
-
-      <p>And a "mixed" task list:</p>
-
-      <ul class="task-list">
-      <li class="task-list-item">
-      <input type="checkbox" class="task-list-item-checkbox" disabled=""> Steal underpants</li>
-      <li>?</li>
-      <li class="task-list-item">
-      <input type="checkbox" class="task-list-item-checkbox" disabled=""> Profit!</li>
-      </ul>
-
-      <p>And a nested list:</p>
-
-      <ul class="task-list">
-      <li>Jackson 5
-
-      <ul class="task-list">
-      <li>Michael</li>
-      <li>Tito</li>
-      <li>Jackie</li>
-      <li>Marlon</li>
-      <li>Jermaine</li>
-      </ul>
-      </li>
-      <li>TMNT
-
-      <ul class="task-list">
-      <li>Leonardo</li>
-      <li>Michelangelo</li>
-      <li>Donatello</li>
-      <li>Raphael</li>
-      </ul>
-      </li>
-      </ul>
-
-      <p>Definition lists can be used with HTML syntax. Definition terms are bold and italic.</p>
-
-      <dl>
-          <dt>Name</dt>
-          <dd>Godzilla</dd>
-          <dt>Born</dt>
-          <dd>1952</dd>
-          <dt>Birthplace</dt>
-          <dd>Japan</dd>
-          <dt>Color</dt>
-          <dd>Green</dd>
-      </dl>
-
-      <hr>
-
-      <p>Tables should have bold headings and alternating shaded rows.</p>
-
-      <table>
-      <thead>
-      <tr>
-      <th>Artist</th>
-      <th>Album</th>
-      <th>Year</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>Michael Jackson</td>
-      <td>Thriller</td>
-      <td>1982</td>
-      </tr>
-      <tr>
-      <td>Prince</td>
-      <td>Purple Rain</td>
-      <td>1984</td>
-      </tr>
-      <tr>
-      <td>Beastie Boys</td>
-      <td>License to Ill</td>
-      <td>1986</td>
-      </tr>
-      </tbody>
-      </table>
-
-      <p>If a table is too wide, it should condense down and/or scroll horizontally.</p>
-
-      <table>
-      <thead>
-      <tr>
-      <th>Artist</th>
-      <th>Album</th>
-      <th>Year</th>
-      <th>Label</th>
-      <th>Awards</th>
-      <th>Songs</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>Michael Jackson</td>
-      <td>Thriller</td>
-      <td>1982</td>
-      <td>Epic Records</td>
-      <td>Grammy Award for Album of the Year, American Music Award for Favorite Pop/Rock Album, American Music Award for Favorite Soul/R&amp;B Album, Brit Award for Best Selling Album, Grammy Award for Best Engineered Album, Non-Classical</td>
-      <td>Wanna Be Startin' Somethin', Baby Be Mine, The Girl Is Mine, Thriller, Beat It, Billie Jean, Human Nature, P.Y.T. (Pretty Young Thing), The Lady in My Life</td>
-      </tr>
-      <tr>
-      <td>Prince</td>
-      <td>Purple Rain</td>
-      <td>1984</td>
-      <td>Warner Brothers Records</td>
-      <td>Grammy Award for Best Score Soundtrack for Visual Media, American Music Award for Favorite Pop/Rock Album, American Music Award for Favorite Soul/R&amp;B Album, Brit Award for Best Soundtrack/Cast Recording, Grammy Award for Best Rock Performance by a Duo or Group with Vocal</td>
-      <td>Let's Go Crazy, Take Me With U, The Beautiful Ones, Computer Blue, Darling Nikki, When Doves Cry, I Would Die 4 U, Baby I'm a Star, Purple Rain</td>
-      </tr>
-      <tr>
-      <td>Beastie Boys</td>
-      <td>License to Ill</td>
-      <td>1986</td>
-      <td>Mercury Records</td>
-      <td>noawardsbutthistablecelliswide</td>
-      <td>Rhymin &amp; Stealin, The New Style, She's Crafty, Posse in Effect, Slow Ride, Girls, (You Gotta) Fight for Your Right, No Sleep Till Brooklyn, Paul Revere, Hold It Now, Hit It, Brass Monkey, Slow and Low, Time to Get Ill</td>
-      </tr>
-      </tbody>
-      </table>
-
-      <hr>
-
-      <p>Code snippets like <code>var foo = "bar";</code> can be shown inline.</p>
-
-      <p>Also, <code>this should vertically align</code> <del><code>with this</code></del> <del>and this</del>.</p>
-
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>People</h2>
+			<p style="text-align: justify;"> The INFOTABS dataset is prepared at the <a href="https://www.cs.utah.edu/"> School of Computing</a> of <a href="https://www.cs.utah.edu/">University of Utah</a> by the following people: </p>
+			<figure>
+				<img src="figures/vivekg.jpg" style="width:25%;">
+				<img src="figures/maitrey.jpeg" style="width:25%;">
+				<img src="figures/pegah.png" style="width:21%;">
+				<img src="figures/viveks.jpg" style="width:23%;">
+				<figcaption>From left to right, <a href="https://vgupta123.github.io">Vivek Gupta</a>, <a href="https://sites.google.com/view/maitreymehta/home">Maitrey Mehta</a>, <a href="https://sites.google.com/view/pnokhiz/home">Pegah Nokhiz</a> and <a href="https://svivek.com/">Vivek Srikumar</a>. </figcaption>
+			</figure>
+			<h2><a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Citation</h2>
+			<p style="text-align: justify;"> Please cite our paper as below if you use the INFOTABS dataset.</p>
       <p>Code can also be shown in a block element.</p>
 
       <pre><code>var foo = "bar";
